@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.schoolTao.mapper.TSaleGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.schoolTao.model.TSaleGoods" >
+    <id column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+    <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR" />
+    <result column="goods_details" property="goodsDetails" jdbcType="VARCHAR" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DOUBLE" />
+    <result column="goods_contact_phone" property="goodsContactPhone" jdbcType="VARCHAR" />
+    <result column="goods_category_id" property="goodsCategoryId" jdbcType="INTEGER" />
+    <result column="goods_contact_qq" property="goodsContactQq" jdbcType="VARCHAR" />
+    <result column="goods_publish_time" property="goodsPublishTime" jdbcType="INTEGER" />
+    <result column="goods_by_user_id" property="goodsByUserId" jdbcType="INTEGER" />
+    <result column="goods_hot" property="goodsHot" jdbcType="INTEGER" />
+    <result column="goods_category_name" property="goodsCategoryName" jdbcType="VARCHAR" />
+    <result column="goods_status" property="goodsStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    goods_id, goods_img, goods_title, goods_details, goods_price, goods_contact_phone, 
+    goods_category_id, goods_contact_qq, goods_publish_time, goods_by_user_id, goods_hot, 
+    goods_category_name, goods_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.schoolTao.model.TSaleGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_sale_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sale_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sale_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.schoolTao.model.TSaleGoodsExample" >
+    delete from t_sale_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.schoolTao.model.TSaleGoods" >
+    <selectKey resultType="java.lang.Integer" keyProperty="goodsId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sale_goods (goods_img, goods_title, goods_details, 
+      goods_price, goods_contact_phone, goods_category_id, 
+      goods_contact_qq, goods_publish_time, goods_by_user_id, 
+      goods_hot, goods_category_name, goods_status
+      )
+    values (#{goodsImg,jdbcType=VARCHAR}, #{goodsTitle,jdbcType=VARCHAR}, #{goodsDetails,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=DOUBLE}, #{goodsContactPhone,jdbcType=VARCHAR}, #{goodsCategoryId,jdbcType=INTEGER}, 
+      #{goodsContactQq,jdbcType=VARCHAR}, #{goodsPublishTime,jdbcType=INTEGER}, #{goodsByUserId,jdbcType=INTEGER}, 
+      #{goodsHot,jdbcType=INTEGER}, #{goodsCategoryName,jdbcType=VARCHAR}, #{goodsStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.schoolTao.model.TSaleGoods" >
+    <selectKey resultType="java.lang.Integer" keyProperty="goodsId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sale_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsImg != null" >
+        goods_img,
+      </if>
+      <if test="goodsTitle != null" >
+        goods_title,
+      </if>
+      <if test="goodsDetails != null" >
+        goods_details,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsContactPhone != null" >
+        goods_contact_phone,
+      </if>
+      <if test="goodsCategoryId != null" >
+        goods_category_id,
+      </if>
+      <if test="goodsContactQq != null" >
+        goods_contact_qq,
+      </if>
+      <if test="goodsPublishTime != null" >
+        goods_publish_time,
+      </if>
+      <if test="goodsByUserId != null" >
+        goods_by_user_id,
+      </if>
+      <if test="goodsHot != null" >
+        goods_hot,
+      </if>
+      <if test="goodsCategoryName != null" >
+        goods_category_name,
+      </if>
+      <if test="goodsStatus != null" >
+        goods_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsImg != null" >
+        #{goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTitle != null" >
+        #{goodsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDetails != null" >
+        #{goodsDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsContactPhone != null" >
+        #{goodsContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCategoryId != null" >
+        #{goodsCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsContactQq != null" >
+        #{goodsContactQq,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPublishTime != null" >
+        #{goodsPublishTime,jdbcType=INTEGER},
+      </if>
+      <if test="goodsByUserId != null" >
+        #{goodsByUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsHot != null" >
+        #{goodsHot,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCategoryName != null" >
+        #{goodsCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStatus != null" >
+        #{goodsStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.schoolTao.model.TSaleGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from t_sale_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_sale_goods
+    <set >
+      <if test="record.goodsId != null" >
+        goods_id = #{record.goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsImg != null" >
+        goods_img = #{record.goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsTitle != null" >
+        goods_title = #{record.goodsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsDetails != null" >
+        goods_details = #{record.goodsDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsPrice != null" >
+        goods_price = #{record.goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.goodsContactPhone != null" >
+        goods_contact_phone = #{record.goodsContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCategoryId != null" >
+        goods_category_id = #{record.goodsCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsContactQq != null" >
+        goods_contact_qq = #{record.goodsContactQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsPublishTime != null" >
+        goods_publish_time = #{record.goodsPublishTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsByUserId != null" >
+        goods_by_user_id = #{record.goodsByUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsHot != null" >
+        goods_hot = #{record.goodsHot,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsCategoryName != null" >
+        goods_category_name = #{record.goodsCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsStatus != null" >
+        goods_status = #{record.goodsStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_sale_goods
+    set goods_id = #{record.goodsId,jdbcType=INTEGER},
+      goods_img = #{record.goodsImg,jdbcType=VARCHAR},
+      goods_title = #{record.goodsTitle,jdbcType=VARCHAR},
+      goods_details = #{record.goodsDetails,jdbcType=VARCHAR},
+      goods_price = #{record.goodsPrice,jdbcType=DOUBLE},
+      goods_contact_phone = #{record.goodsContactPhone,jdbcType=VARCHAR},
+      goods_category_id = #{record.goodsCategoryId,jdbcType=INTEGER},
+      goods_contact_qq = #{record.goodsContactQq,jdbcType=VARCHAR},
+      goods_publish_time = #{record.goodsPublishTime,jdbcType=INTEGER},
+      goods_by_user_id = #{record.goodsByUserId,jdbcType=INTEGER},
+      goods_hot = #{record.goodsHot,jdbcType=INTEGER},
+      goods_category_name = #{record.goodsCategoryName,jdbcType=VARCHAR},
+      goods_status = #{record.goodsStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.schoolTao.model.TSaleGoods" >
+    update t_sale_goods
+    <set >
+      <if test="goodsImg != null" >
+        goods_img = #{goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTitle != null" >
+        goods_title = #{goodsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDetails != null" >
+        goods_details = #{goodsDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsContactPhone != null" >
+        goods_contact_phone = #{goodsContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCategoryId != null" >
+        goods_category_id = #{goodsCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsContactQq != null" >
+        goods_contact_qq = #{goodsContactQq,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPublishTime != null" >
+        goods_publish_time = #{goodsPublishTime,jdbcType=INTEGER},
+      </if>
+      <if test="goodsByUserId != null" >
+        goods_by_user_id = #{goodsByUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsHot != null" >
+        goods_hot = #{goodsHot,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCategoryName != null" >
+        goods_category_name = #{goodsCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsStatus != null" >
+        goods_status = #{goodsStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.schoolTao.model.TSaleGoods" >
+    update t_sale_goods
+    set goods_img = #{goodsImg,jdbcType=VARCHAR},
+      goods_title = #{goodsTitle,jdbcType=VARCHAR},
+      goods_details = #{goodsDetails,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=DOUBLE},
+      goods_contact_phone = #{goodsContactPhone,jdbcType=VARCHAR},
+      goods_category_id = #{goodsCategoryId,jdbcType=INTEGER},
+      goods_contact_qq = #{goodsContactQq,jdbcType=VARCHAR},
+      goods_publish_time = #{goodsPublishTime,jdbcType=INTEGER},
+      goods_by_user_id = #{goodsByUserId,jdbcType=INTEGER},
+      goods_hot = #{goodsHot,jdbcType=INTEGER},
+      goods_category_name = #{goodsCategoryName,jdbcType=VARCHAR},
+      goods_status = #{goodsStatus,jdbcType=INTEGER}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+</mapper>

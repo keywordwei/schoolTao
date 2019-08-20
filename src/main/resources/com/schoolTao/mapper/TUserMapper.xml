@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.schoolTao.mapper.TUserMapper" >
+  <resultMap id="BaseResultMap" type="com.schoolTao.model.TUser" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_status" property="userStatus" jdbcType="INTEGER" />
+    <result column="user_img" property="userImg" jdbcType="VARCHAR" />
+    <result column="user_phonenumber" property="userPhonenumber" jdbcType="VARCHAR" />
+    <result column="user_signature" property="userSignature" jdbcType="VARCHAR" />
+    <result column="user_adress" property="userAdress" jdbcType="VARCHAR" />
+    <result column="user_qq" property="userQq" jdbcType="VARCHAR" />
+    <result column="user_weixin" property="userWeixin" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, user_name, user_pwd, user_email, user_status, user_img, user_phonenumber, 
+    user_signature, user_adress, user_qq, user_weixin
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.schoolTao.model.TUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.schoolTao.model.TUserExample" >
+    delete from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.schoolTao.model.TUser" >
+    <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_user (user_name, user_pwd, user_email, 
+      user_status, user_img, user_phonenumber, 
+      user_signature, user_adress, user_qq, 
+      user_weixin)
+    values (#{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
+      #{userStatus,jdbcType=INTEGER}, #{userImg,jdbcType=VARCHAR}, #{userPhonenumber,jdbcType=VARCHAR}, 
+      #{userSignature,jdbcType=VARCHAR}, #{userAdress,jdbcType=VARCHAR}, #{userQq,jdbcType=VARCHAR}, 
+      #{userWeixin,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.schoolTao.model.TUser" >
+    <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPwd != null" >
+        user_pwd,
+      </if>
+      <if test="userEmail != null" >
+        user_email,
+      </if>
+      <if test="userStatus != null" >
+        user_status,
+      </if>
+      <if test="userImg != null" >
+        user_img,
+      </if>
+      <if test="userPhonenumber != null" >
+        user_phonenumber,
+      </if>
+      <if test="userSignature != null" >
+        user_signature,
+      </if>
+      <if test="userAdress != null" >
+        user_adress,
+      </if>
+      <if test="userQq != null" >
+        user_qq,
+      </if>
+      <if test="userWeixin != null" >
+        user_weixin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userImg != null" >
+        #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhonenumber != null" >
+        #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userSignature != null" >
+        #{userSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="userAdress != null" >
+        #{userAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null" >
+        #{userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="userWeixin != null" >
+        #{userWeixin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.schoolTao.model.TUserExample" resultType="java.lang.Integer" >
+    select count(*) from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPwd != null" >
+        user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userEmail != null" >
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userStatus != null" >
+        user_status = #{record.userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.userImg != null" >
+        user_img = #{record.userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhonenumber != null" >
+        user_phonenumber = #{record.userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSignature != null" >
+        user_signature = #{record.userSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAdress != null" >
+        user_adress = #{record.userAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userQq != null" >
+        user_qq = #{record.userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWeixin != null" >
+        user_weixin = #{record.userWeixin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_pwd = #{record.userPwd,jdbcType=VARCHAR},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      user_status = #{record.userStatus,jdbcType=INTEGER},
+      user_img = #{record.userImg,jdbcType=VARCHAR},
+      user_phonenumber = #{record.userPhonenumber,jdbcType=VARCHAR},
+      user_signature = #{record.userSignature,jdbcType=VARCHAR},
+      user_adress = #{record.userAdress,jdbcType=VARCHAR},
+      user_qq = #{record.userQq,jdbcType=VARCHAR},
+      user_weixin = #{record.userWeixin,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.schoolTao.model.TUser" >
+    update t_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null" >
+        user_status = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userImg != null" >
+        user_img = #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhonenumber != null" >
+        user_phonenumber = #{userPhonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userSignature != null" >
+        user_signature = #{userSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="userAdress != null" >
+        user_adress = #{userAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null" >
+        user_qq = #{userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="userWeixin != null" >
+        user_weixin = #{userWeixin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.schoolTao.model.TUser" >
+    update t_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=INTEGER},
+      user_img = #{userImg,jdbcType=VARCHAR},
+      user_phonenumber = #{userPhonenumber,jdbcType=VARCHAR},
+      user_signature = #{userSignature,jdbcType=VARCHAR},
+      user_adress = #{userAdress,jdbcType=VARCHAR},
+      user_qq = #{userQq,jdbcType=VARCHAR},
+      user_weixin = #{userWeixin,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.schoolTao.mapper.TStuMapper" >
+  <resultMap id="BaseResultMap" type="com.schoolTao.model.TStu" >
+    <id column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="stu_identity" property="stuIdentity" jdbcType="VARCHAR" />
+    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+    <result column="stu_school" property="stuSchool" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    stu_id, stu_identity, stu_name, stu_school
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.schoolTao.model.TStuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_stu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_stu
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_stu
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.schoolTao.model.TStuExample" >
+    delete from t_stu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.schoolTao.model.TStu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="stuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_stu (stu_identity, stu_name, stu_school
+      )
+    values (#{stuIdentity,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR}, #{stuSchool,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.schoolTao.model.TStu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="stuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_stu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stuIdentity != null" >
+        stu_identity,
+      </if>
+      <if test="stuName != null" >
+        stu_name,
+      </if>
+      <if test="stuSchool != null" >
+        stu_school,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stuIdentity != null" >
+        #{stuIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSchool != null" >
+        #{stuSchool,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.schoolTao.model.TStuExample" resultType="java.lang.Integer" >
+    select count(*) from t_stu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_stu
+    <set >
+      <if test="record.stuId != null" >
+        stu_id = #{record.stuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuIdentity != null" >
+        stu_identity = #{record.stuIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuName != null" >
+        stu_name = #{record.stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuSchool != null" >
+        stu_school = #{record.stuSchool,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_stu
+    set stu_id = #{record.stuId,jdbcType=INTEGER},
+      stu_identity = #{record.stuIdentity,jdbcType=VARCHAR},
+      stu_name = #{record.stuName,jdbcType=VARCHAR},
+      stu_school = #{record.stuSchool,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.schoolTao.model.TStu" >
+    update t_stu
+    <set >
+      <if test="stuIdentity != null" >
+        stu_identity = #{stuIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="stuName != null" >
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSchool != null" >
+        stu_school = #{stuSchool,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.schoolTao.model.TStu" >
+    update t_stu
+    set stu_identity = #{stuIdentity,jdbcType=VARCHAR},
+      stu_name = #{stuName,jdbcType=VARCHAR},
+      stu_school = #{stuSchool,jdbcType=VARCHAR}
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </update>
+</mapper>
